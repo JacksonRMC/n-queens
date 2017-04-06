@@ -79,11 +79,25 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      // determine whehter or not there are multiple 1 in a given rowIndex
+      // matrix [rowIndex] going to be the array
+      var count = 0;
+      for (var i = 0; i < this.rows()[rowIndex].length; i++) {
+        if (this.rows()[rowIndex][i] === 1) {
+          count++;
+        }
+      }
+      return (count > 1); // fixme
     },
 
-    // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
+      var rows = this.rows();
+
+      for (var i = 0; i < rows.length; i++) { 
+        if ( this.hasRowConflictAt( i ) ) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
@@ -94,12 +108,32 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+    // var number = this.get(colIndex).findIndex((x) => x === 1);
+    // return number;
+    // I -> index value that corresponds to the 1 inside the colum
+    // O -> true if another 1 is located in another row of the same index passed in.
+      var count = 0;
+      for (var i = 0; i < this.rows().length; i++) {
+        if ( this.get(i)[colIndex] === 1) { //Same as this.rows()[i][colIndex];
+          count++;
+        } 
+      }
+      return count > 1;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      console.log(this.get(1));
+      for (var i = 0; i < this.rows().length; i++) {
+        for (var j = 0; j < this.rows()[i].length; j++) {
+          if (this.rows()[i][j] === 1) {
+            if (this.hasColConflictAt( j )) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
     },
 
 
@@ -108,12 +142,33 @@
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+    hasMajorDiagonalConflictAt: function(row, column) {
+      // our input is an index location at where the first 1 was found.
+      for (var i = (row + 1); i < this.rows().length; i++ ) {
+        for (var j = (column + 1); j < this.rows().length; j++) {
+          if (this.get(i)[j] === 1) {
+            return true;
+          }
+        }
+      }
       return false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      for (var row = 0; row < this.rows().length; row++) {
+        // when 1 is found, capture the row and index at which it was found
+        //var row = this.get(i);  //<-- row array
+        var index = this.get(row).findIndex( (x) => x === 1 );
+        if (index > -1) {
+          if ( this.hasMajorDiagonalConflictAt(row, index) ) {
+            return true;
+          }
+        }
+      }
+        // pass the index into hasMajorDiagonalConflictAt
+        // if that callback is true
+          // return true;
       return false; // fixme
     },
 
@@ -123,12 +178,27 @@
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
-    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+    hasMinorDiagonalConflictAt: function(row, column) {
+      for (var i = row + 1; i < this.rows().length; i++ ) {
+        for (var j = (column - 1); j > -1; j--) {
+          if (this.get(i)[j] === 1) {
+            return true;
+          }
+        }
+      }
       return false; // fixme
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
+      for (var row = 0; row < this.rows().length; row++) {
+        var index = this.get(row).findIndex( (x) => x === 1 );
+        if (index > -1) {
+          if ( this.hasMinorDiagonalConflictAt(row, index) ) {
+            return true;
+          }
+        }
+      }
       return false; // fixme
     }
 
