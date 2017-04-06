@@ -123,7 +123,7 @@
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      console.log(this.get(1));
+      //console.log(this.get(1));
       for (var i = 0; i < this.rows().length; i++) {
         for (var j = 0; j < this.rows()[i].length; j++) {
           if (this.rows()[i][j] === 1) {
