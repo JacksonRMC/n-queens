@@ -144,17 +144,16 @@
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(row, column) {
       // our input is an index location at where the first 1 was found.
-      for (var i = (row + 1); i < this.rows().length; i++ ) {
-        for (var j = (column + 1); j < this.rows().length; j++) {
-          if (this.get(i)[j] === 1) {
-            return true;
-          }
+      for ( var i = (row + 1), j = (column + 1); (i < this.rows().length) && (j < this.rows().length); i++, j++ ) {
+        if (this.get(i)[j] === 1) {
+          return true;
         }
       }
       return false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
+
     hasAnyMajorDiagonalConflicts: function() {
       for (var row = 0; row < this.rows().length; row++) {
         // when 1 is found, capture the row and index at which it was found
@@ -179,13 +178,11 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(row, column) {
-      for (var i = row + 1; i < this.rows().length; i++ ) {
-        for (var j = (column - 1); j > -1; j--) {
+      for (var i = row + 1, j = (column - 1); i < this.rows().length && j > -1; i++, j--) {
           if (this.get(i)[j] === 1) {
             return true;
           }
         }
-      }
       return false; // fixme
     },
 
